@@ -9,6 +9,7 @@ export function App() {
   const [url, setUrl] = useState("");
   const [linkText, setLinkText] = useState("");
   const [isEditable, setIsEditable] = useState(true);
+  const [editTitle, setEditTitle] = useState(false);
   const [showLinkCustomizer, setShowLinkCustomizer] = useState(false)
   const [showContentEditable, setShowContentEditable] = useState(false)
 
@@ -16,6 +17,10 @@ export function App() {
     setShowContentEditable(true)
   }
 
+  const closeContentEditable = () => {
+    setShowContentEditable(false)
+  }
+ 
   const toggleLinkCustomizer = () => {
     setShowLinkCustomizer(!showLinkCustomizer)
   }
@@ -61,6 +66,34 @@ export function App() {
     }
   };
 
+  const addTitle = () => {
+    console.log(title)
+    if (title !== "") {
+      localStorage.setItem('title', title)
+      setEditTitle(false)
+    }
+    // if (title !== "" && localStorage.getItem('title')) {
+    //   localStorage.setItem('title', title)
+    //   setEditTitle(false)
+    // } 
+  }
+
+  const saveCardContent = () => {
+    const contentElement = contentRef.current;
+    if (contentElement) {
+      const cardData = {
+        title,
+        content: contentElement.innerHTML,
+      }
+
+      console.log(cardData)
+    }
+  }
+
+  const clearStoragedTitle = () => {
+    setTitle("")
+    localStorage.removeItem('title')
+  }
   
   const handleClickOutside = (event: MouseEvent) => {
     console.log('ta entrando na função?')
@@ -104,6 +137,13 @@ export function App() {
     };
   }, [handleClickOutside]);
 
+  useEffect(() => {
+    const title = localStorage.getItem('title')
+    if (title) {
+      setTitle(title)
+    }
+  }, [title])
+
   return (
     <div className="p-8 relative bg-[#1a1d21] h-screen text-[#b6b2cf]">
       <div className="absolute w-[700px] shadow-xl py-6 px-8 rounded-lg bg-[#323940]">
@@ -118,15 +158,22 @@ export function App() {
                   ${title.length >= 1 ? 'w-[85%]' : 'w-full'} 
                   bg-[#323940] text-2xl font-bold h-9 overflow-hidden focus:outline-none focus:ring-2 focus:ring-blue-500`
                 }
-                value={title || "Defina um título para o card"}
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                placeholder="Defina um título para o card"
               />
               {title.length >= 1 && (
                 <div className="w-[15%] flex gap-1 ml-1">
-                  <button className="bg-slate-400 rounded-sm h-full w-1/2 flex justify-center items-center">
+                  <button 
+                    className="bg-slate-400 rounded-sm h-full w-1/2 flex justify-center items-center"
+                    onClick={addTitle}
+                  >
                     <MdCheck color="#0aaf0d" size={20} />
                   </button>
-                  <button className="bg-slate-400 rounded-sm h-full w-1/2 flex justify-center items-center">
+                  <button 
+                    onClick={clearStoragedTitle}
+                    className="bg-slate-400 rounded-sm h-full w-1/2 flex justify-center items-center"
+                  >
                     <MdClose color="#ff0000" size={20} />
                   </button>
                 </div>
@@ -213,11 +260,11 @@ export function App() {
                 ></div>
               </div>
               <div className="flex justify-end gap-2 w-full pt-4">
-                <button onClick={toggleLinkCustomizer} className="px-4 py-2">
+                <button onClick={closeContentEditable} className="px-4 py-2">
                   Cancelar
                 </button>
                 <button
-                  onClick={addLink}
+                  onClick={saveCardContent}
                   className="bg-slate-400 text-[#22282d] px-4 py-2 rounded-md font-semibold"
                 >
                   Salvar
