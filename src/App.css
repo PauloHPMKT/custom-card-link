@@ -1,0 +1,41 @@
+.app {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header-content-editor {
+  width: 100%;
+  height: 40px;
+  position: relative;
+}
+
+.box-container {
+  background-color: #0f1117;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 25px 20px;
+  position: absolute;
+  width: 400px;
+  border-radius: 8px;
+}
+
+.box-container input {
+  height: 36px;
+  background-color: #1e2127;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 5px 10px;
+}
+
+.content-editor {
+  background-color: #1e2127;
+  height: 80vh;
+  border-radius: 5px;
+  color: #fff;
+  padding: 20px;
+}
