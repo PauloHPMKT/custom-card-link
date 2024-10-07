@@ -165,7 +165,7 @@ export function App() {
               {localStorage.getItem('title') && (
                 <button>Editar</button>
               )}
-              {/* {title.length >= 1 && (
+              {title.length >= 1 && (
                 <div className="w-[15%] flex gap-1 ml-1">
                   <button 
                     className="bg-slate-400 rounded-sm h-full w-1/2 flex justify-center items-center"
@@ -180,7 +180,7 @@ export function App() {
                     <MdClose color="#ff0000" size={20} />
                   </button>
                 </div>
-              )} */}
+              )}
             </div>
           </div>
         </div>
